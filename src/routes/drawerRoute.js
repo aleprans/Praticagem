@@ -8,6 +8,7 @@ import DrawerCuston from '../components/custonDrawer'
 import Servicos from '../screens/servicos'
 import HrExtras from '../screens/hrExtras'
 import Relatorios from '../screens/relatorios'
+import Config from "../screens/config"
 import InsertServicos from '../screens/insertService'
 import InsertOvertime from '../screens/insertOvertime'
 
@@ -81,6 +82,24 @@ export default function DrawerRoutes(){
                 <Text style={estilos.text}>RELATÓRIOS</Text>
                 <TouchableOpacity 
                   onPress={()=>console.log('Relatorios')}
+                >
+                </TouchableOpacity>
+              </View>
+            )
+          }
+        }}
+      />
+      
+      <Drawer.Screen 
+        name="config" 
+        component={Config} 
+        options={{ 
+          headerTitle: (props) => {
+            return (
+              <View style={estilos.container}>
+                <Text style={estilos.text}>CONFIGURAÇÕES</Text>
+                <TouchableOpacity 
+                  onPress={()=>console.log('Configurações')}
                 >
                 </TouchableOpacity>
               </View>

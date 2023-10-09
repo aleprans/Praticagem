@@ -1,4 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'
 
 import ReportServices from './reportServices';
@@ -15,11 +16,11 @@ export default function Reports(){
         component={ReportServices} 
         options={() => ({
           tabBarIcon: ({ focused, size, color }) => {
-            return <Icon name={ focused ? 'construct' : 'construct-outline'} size={size} color={color} />
+            return <Icon name={ focused ? 'construct' : 'construct-outline'} size={size} color={'#555'} />
           },
           tabBarActiveTintColor: "#000",
           tabBarInactiveTintColor:"#ccc",
-          tabBarLabel: 'SERVIÇOS'
+          tabBarLabel: ({focused})=> <Text style={focused ? estilos.tabTextActive : estilos.tabText}>SERVIÇOS</Text>
         })
       }  
       />
@@ -28,14 +29,26 @@ export default function Reports(){
         component={ReportOvertime} 
         options={() => ({
           tabBarIcon: ({ focused, size, color }) => {
-            return <Icon name={ focused ? 'cash' : 'cash-outline'} size={size} color={color} />
+            return <Icon name={ focused ? 'cash' : 'cash-outline'} size={size} color={'#555'} />
           },
           tabBarActiveTintColor: "#000",
           tabBarInactiveTintColor:"#ccc",
-          tabBarLabel: 'HORAS EXTRAS'
+          tabBarLabel: ({focused})=> <Text style={focused ? estilos.tabTextActive : estilos.tabText}>HORAS EXTRAS</Text>
         })
         }
         />
     </Tab.Navigator>
   )
 }
+
+const estilos = StyleSheet.create({
+  tabText: {
+    fontSize: 12
+  },
+
+  tabTextActive: {
+    fontSize: 14,
+    textShadowColor: '#f00',
+    textShadowRadius: 5
+  }
+})

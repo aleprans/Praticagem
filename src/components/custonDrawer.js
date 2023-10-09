@@ -10,6 +10,7 @@ export default function Drawer(props){
   const [servFocus, setServfocus] = useState(true)
   const [horaFocus, setHorafocus] = useState(false)
   const [reportFocus, setReportfocus] = useState(false)
+  const [configFocus, setConfigfocus] = useState(false)
 
 
   return (
@@ -35,6 +36,7 @@ export default function Drawer(props){
           setServfocus(true)
           setHorafocus(false)
           setReportfocus(false)
+          setConfigfocus(false)
         }}
         focused={servFocus}
         icon={({ focused, color, size}) =>
@@ -59,6 +61,7 @@ export default function Drawer(props){
           setServfocus(false)
           setHorafocus(true)
           setReportfocus(false)
+          setConfigfocus(false)
         }}
         focused={horaFocus}
         icon={({ focused, color, size}) =>
@@ -84,11 +87,37 @@ export default function Drawer(props){
           setServfocus(false)
           setHorafocus(false)
           setReportfocus(true)
+          setConfigfocus(false)
         }}
         focused={reportFocus}
         icon={({ focused, color, size}) =>
           <Icon
             name={focused ? 'print' : 'print-outline'}
+            size={size}
+            color={'#777'}
+          />
+        }
+        activeBackgroundColor="#ccc"
+        activeTintColor="#000"
+      />
+      <DrawerItem
+        style={[estilo.item, {borderColor: configFocus ? '#f00' : '#000'}]}
+        label={({focused, color}) =>
+          <Text style={{ fontWeight: focused ? 'bold': 'normal', fontSize: focused ? 18 : 15 }}>
+            Configurações
+          </Text>
+        }
+        onPress={() => {
+          props.navigation.navigate('config')
+          setServfocus(false)
+          setHorafocus(false)
+          setReportfocus(false)
+          setConfigfocus(true)
+        }}
+        focused={configFocus}
+        icon={({ focused, color, size}) =>
+          <Icon
+            name={focused ? 'settings' : 'settings-outline'}
             size={size}
             color={'#777'}
           />
