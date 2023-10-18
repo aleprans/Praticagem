@@ -10,7 +10,7 @@ export default function Drawer(props){
   const [servFocus, setServfocus] = useState(true)
   const [horaFocus, setHorafocus] = useState(false)
   const [reportFocus, setReportfocus] = useState(false)
-  const [configFocus, setConfigfocus] = useState(false)
+  const [backupFocus, setBackupfocus] = useState(false)
 
 
   return (
@@ -36,7 +36,7 @@ export default function Drawer(props){
           setServfocus(true)
           setHorafocus(false)
           setReportfocus(false)
-          setConfigfocus(false)
+          setBackupfocus(false)
         }}
         focused={servFocus}
         icon={({ focused, color, size}) =>
@@ -61,7 +61,7 @@ export default function Drawer(props){
           setServfocus(false)
           setHorafocus(true)
           setReportfocus(false)
-          setConfigfocus(false)
+          setBackupfocus(false)
         }}
         focused={horaFocus}
         icon={({ focused, color, size}) =>
@@ -87,7 +87,7 @@ export default function Drawer(props){
           setServfocus(false)
           setHorafocus(false)
           setReportfocus(true)
-          setConfigfocus(false)
+          setBackupfocus(false)
         }}
         focused={reportFocus}
         icon={({ focused, color, size}) =>
@@ -101,23 +101,23 @@ export default function Drawer(props){
         activeTintColor="#000"
       />
       <DrawerItem
-        style={[estilo.item, {borderColor: configFocus ? '#f00' : '#000'}]}
+        style={[estilo.item, {borderColor: backupFocus ? '#f00' : '#000'}]}
         label={({focused, color}) =>
           <Text style={{ fontWeight: focused ? 'bold': 'normal', fontSize: focused ? 18 : 15 }}>
-            Configurações
+            Backup
           </Text>
         }
         onPress={() => {
-          props.navigation.navigate('config')
+          props.navigation.navigate('backup')
           setServfocus(false)
           setHorafocus(false)
           setReportfocus(false)
-          setConfigfocus(true)
+          setBackupfocus(true)
         }}
-        focused={configFocus}
+        focused={backupFocus}
         icon={({ focused, color, size}) =>
           <Icon
-            name={focused ? 'settings' : 'settings-outline'}
+            name={focused ? 'cloud-download' : 'cloud-download-outline'}
             size={size}
             color={'#777'}
           />

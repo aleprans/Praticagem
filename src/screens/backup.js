@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Switch } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons'
 import Loading from "../components/loading";
@@ -78,20 +78,20 @@ export default function Config() {
         <Switch 
           value={notServico}
           onValueChange={toggleSwitch}
-          trackColor={{true: '#aa0', false: '#00a'}}
-          thumbColor={notServico ? '#ff0' : '#55f'}
+          trackColor={{true: '#006400', false: '#00a'}}
+          thumbColor={notServico ? '#32cd32' : '#55f'}
         />
-        <Text style={[estilos.textSwitch, {textShadowColor: notServico ? '#ff0' : '#fff'}]}>Horas Extras</Text>
+        <Text style={[estilos.textSwitch, {textShadowColor: notServico ? '#00ff00' : '#fff'}]}>Horas Extras</Text>
       </View>
       <TouchableOpacity
-        style={estilos.btn}
+        style={[estilos.btn]}
         onPress={() => {
           notServico ? importOvertime() : importServices()
         }}
       >
         <View style={estilos.btnItem}>
-          <Icon name="cloud-download-outline" size={30} color={'#777'} />
-          <Text style={estilos.btnText}>Importar</Text>
+          <Icon name="cloud-download" size={30} color={notServico ? '#32cd32' : '#1E90FF'} />
+          <Text style={[estilos.btnText, {color: notServico ? '#006400' : '#00a' }]}>Importar</Text>
         </View>
       </TouchableOpacity>
       
@@ -102,8 +102,8 @@ export default function Config() {
         }}
       >
         <View style={estilos.btnItem}>
-          <Icon name="cloud-upload-outline" size={30} color={'#777'} />
-          <Text style={estilos.btnText}>Exportar</Text>
+          <Icon name="cloud-upload-outline" size={30} color={notServico ? '#32cd32' : '#1E90FF'} />
+          <Text style={[estilos.btnText, {color: notServico ? '#006400' : '#00a' }]}>Exportar</Text>
         </View>
       </TouchableOpacity>
         

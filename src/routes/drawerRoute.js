@@ -8,7 +8,7 @@ import DrawerCuston from '../components/custonDrawer'
 import Servicos from '../screens/servicos'
 import HrExtras from '../screens/hrExtras'
 import Relatorios from '../screens/relatorios'
-import Config from "../screens/config"
+import Backup from "../screens/backup"
 import InsertServicos from '../screens/insertService'
 import InsertOvertime from '../screens/insertOvertime'
 
@@ -91,13 +91,13 @@ export default function DrawerRoutes(){
       />
       
       <Drawer.Screen 
-        name="config" 
-        component={Config} 
+        name="backup" 
+        component={Backup} 
         options={{ 
           headerTitle: (props) => {
             return (
               <View style={estilos.container}>
-                <Text style={estilos.text}>CONFIGURAÇÕES</Text>
+                <Text style={estilos.text}>BACKUP</Text>
                 <TouchableOpacity 
                   onPress={()=>console.log('Configurações')}
                 >

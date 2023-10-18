@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Modal, ToastAndroid, TextInput } from "react-native";
 import { useNavigation } from '@react-navigation/native'
 import MaskInput , { Masks } from 'react-native-mask-input'
-import Icon from 'react-native-vector-icons/Ionicons'
 
 import Loading from '../components/loading'
 import ExecuteQuery from '../sql/index'
@@ -30,6 +29,25 @@ export default function Servicos(){
     return unsubscribe
   },[navigation])
 
+  useEffect(()=>{
+    if(dtIniFilter.length == 10 && dtEndFilter.length == 10){
+      filtrar()
+      setFilterOn(true)
+    }else if(dtIniFilter == '' && dtEndFilter == '') {
+      allOvertime()
+      setFilterOn(false)
+      setDeleteModel(false)
+    }
+  },[dtIniFilter, dtEndFilter])
+  
+
+  function orderDados(dados) {
+    let newDados = [...dados]
+
+    newDados.sort((a, b)=>(converteData(a.data) > converteData(b.data)) ? 1 : (converteData(b.data) > converteData(a.data)) ? -1 : 0)
+    return newDados
+  }
+
   async function allOvertime() {
     setLoading(true)
     const result = await ExecuteQuery("SELECT * FROM hrextras")
@@ -38,7 +56,7 @@ export default function Servicos(){
       temp.push(result.rows.item(i))
     }
     setDados([...temp])
-    setDadosFiltered([...temp])
+    setDadosFiltered(orderDados([...temp]))
 
     setLoading(false)
   }
@@ -66,14 +84,11 @@ export default function Servicos(){
   }
 
   async function filtrar(){
-    if(dtIniFilter !== "" && dtEndFilter !== ""){
-      let dataInicial = converteData(dtIniFilter)
-      let dataFinal = converteData(dtEndFilter)
-      let objetosFiltrados = dados.filter(result => {
-        return converteData(result.data) >= dataInicial && converteData(result.data) <= dataFinal
-      })
+    let dataInicial = converteData(dtIniFilter)
+    let dataFinal = converteData(dtEndFilter)
+    let objetosFiltrados = dados.filter(result => {
+      return converteData(result.data) >= dataInicial && converteData(result.data) <= dataFinal})
       setDadosFiltered(objetosFiltrados)
-    }
   }
 
   function LimpFilter() {
@@ -133,8 +148,21 @@ export default function Servicos(){
           transparent={true}
           visible={filterModel}
         >
-          <View style={estilos.viewfiltros}>
+          <TouchableOpacity style={estilos.viewfiltros} onPress={() => {
+            setFilterModel(false)
+            }}>
             <View style={estilos.filterContext}>
+              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Text style={{fontSize: 16, marginBottom: 5}}>Filtrar por:</Text>
+                <TouchableOpacity
+                  onPress={()=> {
+                    LimpFilter()
+                    setFilterModel(false)
+                  }}
+                >
+                  <Text style={{color: '#00a'}}>Limpar filtros</Text>
+                </TouchableOpacity>
+              </View>
               <View style={estilos.viewDtFilter} >
                 <Text style={estilos.textContext}>Data</Text>
                 <View style={{flexDirection: 'row'}}>
@@ -159,43 +187,10 @@ export default function Servicos(){
                     onFocus={() => setDtEndFilter('')}
                     ref={refDtend}
                   />
-                  <TouchableOpacity 
-                    onPress={() => {
-                      setDtIniFilter('')
-                      setDtEndFilter('')
-                    }}
-                  >
-                    <Icon name="close-circle-outline" size={30} color={'#f00'} />
-                  </TouchableOpacity>
                 </View>
               </View>
-              <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-                <TouchableOpacity 
-                  style={{marginHorizontal: 10, marginTop: 10}}
-                  onPress={()=> {
-                    filtrar()
-                    setFilterOn(true)
-                    setFilterModel(false)
-                  }
-                  }
-                >
-                  <Text style={{fontSize: 16, fontWeight: 'bold'}}>Aplicar</Text>
-                </TouchableOpacity>
-                <TouchableOpacity 
-                  style={{marginHorizontal: 10, marginTop: 10}}
-                  onPress={()=> {
-                    LimpFilter()
-                    setFilterModel(false)
-                    setFilterOn(false)
-                    allOvertime()
-                  }
-                  }
-                >
-                  <Text style={{fontSize: 16, fontWeight: 'bold'}}>Cancelar</Text>
-                </TouchableOpacity>
-              </View>
             </View>
-          </View>
+          </TouchableOpacity>
         </Modal>
         <TouchableOpacity
           style={estilos.btnFilter}
@@ -209,7 +204,7 @@ export default function Servicos(){
         removeClippedSubviews={false}
         showsVerticalScrollIndicator={false}
         style={estilos.lista}
-        data={dadosFiltered}
+        data={dadosFiltered.reverse()}
         extraData={dadosFiltered}
         renderItem={({ item }) => <ListItem dados={item} />}
         keyExtractor={ item => String(item.id)}

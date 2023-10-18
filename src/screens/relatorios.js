@@ -9,18 +9,27 @@ const Tab = createBottomTabNavigator()
 export default function Reports(){
   return (
     <Tab.Navigator
-      screenOptions={({headerShown: false})}
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: '#DCDCDC',
+          borderColor: '#f00',
+          borderWidth: 1,
+          height: 70
+        }
+      }}
     >
       <Tab.Screen 
         name='reportServices' 
         component={ReportServices} 
         options={() => ({
           tabBarIcon: ({ focused, size, color }) => {
-            return <Icon name={ focused ? 'construct' : 'construct-outline'} size={size} color={'#555'} />
+            return <Icon name={ focused ? 'construct' : 'construct-outline'} size={size} color={'#555'}/>
           },
           tabBarActiveTintColor: "#000",
           tabBarInactiveTintColor:"#ccc",
           tabBarLabel: ({focused})=> <Text style={focused ? estilos.tabTextActive : estilos.tabText}>SERVIÇOS</Text>
+          
         })
       }  
       />
@@ -47,8 +56,9 @@ const estilos = StyleSheet.create({
   },
 
   tabTextActive: {
-    fontSize: 14,
-    textShadowColor: '#f00',
-    textShadowRadius: 5
+    fontSize: 16,
+    fontWeight: 'bold'
+    // textShadowColor: '#f00',
+    // textShadowRadius: 5
   }
 })

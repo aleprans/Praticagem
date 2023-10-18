@@ -14,26 +14,11 @@ export default function InsertService({ route }) {
   const navigation = useNavigation()
 
   const id = route.params.id
-  const animationDataLabel = useSharedValue(1)
   const animationDataInput = useSharedValue(1)
-  const animationEmbLabel = useSharedValue(1)
   const animationEmbInput = useSharedValue(1)
-  const animationEquipLabel = useSharedValue(1)
   const animationEquipInput = useSharedValue(1)
-  const animationHorimLabel = useSharedValue(1)
   const animationHorimInput = useSharedValue(1)
-  const animationDescrLabel = useSharedValue(1)
   const animationDescrInput = useSharedValue(1)
-
-  const animationDataL = useAnimatedStyle(() => {
-    return {
-      transform:[{
-        scale: withTiming(animationDataLabel.value, {
-          duration: 1000
-        })
-      }]
-    }
-  })
   
   const animationDataI = useAnimatedStyle(() => {
     return {
@@ -45,30 +30,10 @@ export default function InsertService({ route }) {
     }
   })
  
-  const animationEmbL = useAnimatedStyle(() => {
-    return {
-      transform:[{
-        scale: withTiming(animationEmbLabel.value, {
-          duration: 1000
-        })
-      }]
-    }
-  })
-  
   const animationEmbI = useAnimatedStyle(() => {
     return {
       transform:[{
         scale: withTiming(animationEmbInput.value, {
-          duration: 1000
-        })
-      }]
-    }
-  })
-  
-  const animationEquipL = useAnimatedStyle(() => {
-    return {
-      transform:[{
-        scale: withTiming(animationEquipLabel.value, {
           duration: 1000
         })
       }]
@@ -85,16 +50,6 @@ export default function InsertService({ route }) {
     }
   })
   
-  const animationHorimL = useAnimatedStyle(() => {
-    return {
-      transform:[{
-        scale: withTiming(animationHorimLabel.value, {
-          duration: 1000
-        })
-      }]
-    }
-  })
-  
   const animationHorimI = useAnimatedStyle(() => {
     return {
       transform:[{
@@ -105,16 +60,6 @@ export default function InsertService({ route }) {
     }
   })
 
-  const animationDescrL = useAnimatedStyle(() => {
-    return {
-      transform:[{
-        scale: withTiming(animationDescrLabel.value, {
-          duration: 1000
-        })
-      }]
-    }
-  })
-  
   const animationDescrI = useAnimatedStyle(() => {
     return {
       transform:[{
@@ -128,7 +73,7 @@ export default function InsertService({ route }) {
   const [data, setData] = useState('')
   const [embarcacao, setEmbarcacao] = useState('')
   const [equipamento, setEquipamento] = useState('')
-  const [horimetro, setHorimetro] = useState('0')
+  const [horimetro, setHorimetro] = useState('')
   const [descricao, setDescricao] = useState('')
   const [modalVisible, setModalVisible] = useState(false)
   const [titleModal, setTitleModal] = useState('')
@@ -153,7 +98,7 @@ export default function InsertService({ route }) {
     setData('')
     setEmbarcacao('')
     setEquipamento('')
-    setHorimetro('0')
+    setHorimetro('')
     setDescricao('')
   }
 
@@ -216,7 +161,8 @@ export default function InsertService({ route }) {
       <KeyboardAvoidingView
         behavior="padding"
         style={estilos.container}
-      ><Modal
+      >
+      <Modal
         animationType="fade"
         visible={modalVisible}
         transparent={true}
@@ -231,7 +177,7 @@ export default function InsertService({ route }) {
         </View>
 
         <View style={estilos.item}>
-          <Animated.Text style={[animationDataL, estilos.label]}>Data de Execução</Animated.Text>
+          <Animated.Text style={estilos.label}>Data de Execução</Animated.Text>
           <Animated.View style={animationDataI}>
           <MaskInput 
             keyboardType="numeric"
@@ -241,17 +187,15 @@ export default function InsertService({ route }) {
             style={estilos.input}
             onFocus={()=> {
               animationDataInput.value = 1.5
-              animationDataLabel.value = 0.5
             }}
             onBlur={()=> {
               animationDataInput.value = 1
-              animationDataLabel.value = 1
             }}
           />
           </Animated.View>
         </View>
         <View style={estilos.item}>
-          <Animated.Text style={[animationEmbL, estilos.label]}>Embarcação</Animated.Text>
+          <Animated.Text style={estilos.label}>Embarcação</Animated.Text>
           <Animated.View style={animationEmbI}>
           <TextInput 
             value={embarcacao}
@@ -259,11 +203,9 @@ export default function InsertService({ route }) {
             autoCapitalize="sentences"
             style={estilos.input}
             onFocus={() => {
-              animationEmbLabel.value = 0.5
               animationEmbInput.value = 1.5
             }}
             onBlur={() => {
-              animationEmbLabel.value = 1
               animationEmbInput.value = 1
             }}
           />
@@ -271,7 +213,7 @@ export default function InsertService({ route }) {
         </View>
 
         <View style={estilos.item}>
-          <Animated.Text style={[animationEquipL, estilos.label]}>Equipamento</Animated.Text>
+          <Animated.Text style={estilos.label}>Equipamento</Animated.Text>
           <Animated.View style={animationEquipI}>
           <TextInput 
             value={equipamento}
@@ -279,11 +221,9 @@ export default function InsertService({ route }) {
             autoCapitalize='sentences'
             style={estilos.input}
             onFocus={() => {
-              animationEquipLabel.value = 0.5
               animationEquipInput.value = 1.5
             }}
             onBlur={() => {
-              animationEquipLabel.value = 1
               animationEquipInput.value = 1
             }}
           />
@@ -291,19 +231,18 @@ export default function InsertService({ route }) {
         </View>
 
         <View style={estilos.item}>
-          <Animated.Text style={[animationHorimL, estilos.label]}>Horimetro</Animated.Text>
+          <Animated.Text style={estilos.label}>Horimetro</Animated.Text>
           <Animated.View style={animationHorimI}>
           <TextInput 
             keyboardType="numeric"
+            placeholder="0"
             value={horimetro}
             onChangeText={setHorimetro}
             style={estilos.input}
             onFocus={() => {
-              animationHorimLabel.value = 0.5
               animationHorimInput.value = 1.5
             }}
             onBlur={() => {
-              animationHorimLabel.value = 1
               animationHorimInput.value = 1
             }}
           />
@@ -311,7 +250,7 @@ export default function InsertService({ route }) {
         </View>
 
         <View style={estilos.item}>
-          <Animated.Text style={[animationDescrL, estilos.label]}>Descrição</Animated.Text>
+          <Animated.Text style={estilos.label}>Descrição</Animated.Text>
           <Animated.View style={animationDescrI}>
           <TextInput 
             value={descricao}
@@ -319,11 +258,9 @@ export default function InsertService({ route }) {
             autoCapitalize="sentences"
             style={estilos.input}
             onFocus={() => {
-              animationDescrLabel.value = 0.5
               animationDescrInput.value = 1.5
             }}
             onBlur={() => {
-              animationDescrLabel.value = 1
               animationDescrInput.value = 1
             }}
           />
